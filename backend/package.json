@@ -2,11 +2,11 @@
     "name": "backend",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/server.js",
+    "main": "server.js",
     "scripts": {
+        "start": "ts-node src/server.ts",
         "build": "tsc",
-        "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-        "start": "node dist/server.js"
+        "serve": "node dist/server.js"
     },
     "author": "Sush1sui",
     "license": "ISC",

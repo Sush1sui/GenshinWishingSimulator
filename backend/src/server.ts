@@ -14,6 +14,4 @@ mongoose
     .then(() => console.log("Connected to DB successfully"))
     .catch((e) => console.log("Failed to connect to DB", e));
 
-app.use;
-
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
