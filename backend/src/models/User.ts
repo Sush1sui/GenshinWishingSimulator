@@ -1,6 +1,7 @@
 import mongoose, { mongo } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
+import { CustomUser, UserWithLoginType } from "./Types/UserType";
 const { isEmail } = validator;
 
 const userSchema = new mongoose.Schema({
@@ -22,7 +23,10 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-userSchema.statics.login = async function (email, password): Promise<void> {
+userSchema.statics.login = async function (
+    email,
+    password
+): Promise<CustomUser> {
     if (!email) throw new Error("Email is required");
     if (!password) throw new Error("Password is required");
 
@@ -36,6 +40,6 @@ userSchema.statics.login = async function (email, password): Promise<void> {
     throw new Error("Incorrect credentials");
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model<CustomUser, UserWithLoginType>("User", userSchema);
 
 export default User;
