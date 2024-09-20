@@ -2,6 +2,7 @@ import { NextFunction, Response, Request } from "express";
 import User from "../models/User";
 import { registerErrorCatcher } from "../middleware/authMiddleware";
 import mongoose from "mongoose";
+import { MongoServerError } from "mongodb";
 
 export const postRegister = async (req: Request, res: Response) => {
     try {
@@ -9,7 +10,9 @@ export const postRegister = async (req: Request, res: Response) => {
         const user = await User.create({ email, password });
         return res.status(201).json({ user });
     } catch (error) {
-        const e = registerErrorCatcher(error as mongoose.Error.ValidationError);
+        const e = registerErrorCatcher(
+            error as mongoose.Error.ValidationError | MongoServerError
+        );
         return res.status(400).json(e);
     }
 };

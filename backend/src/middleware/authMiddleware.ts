@@ -12,8 +12,8 @@ export function registerErrorCatcher(
 ) {
     let errors: RegisterErrorType = {};
 
-    if (err instanceof MongoServerError && err.code === 11000) {
-        err.message = "Email already exists";
+    if ("code" in err && err.code === 11000) {
+        errors.message = "Email already exists";
     }
 
     if (
