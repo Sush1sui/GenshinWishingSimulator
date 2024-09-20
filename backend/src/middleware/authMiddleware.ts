@@ -1,7 +1,7 @@
 import { MongoServerError } from "mongodb";
 import mongoose from "mongoose";
 
-interface RegisterErrorType {
+interface CustomErrorType {
     message?: string;
     email?: string;
     password?: string;
@@ -10,7 +10,7 @@ interface RegisterErrorType {
 export function registerErrorCatcher(
     err: mongoose.Error.ValidationError | MongoServerError
 ) {
-    let errors: RegisterErrorType = {};
+    let errors: CustomErrorType = {};
 
     if ("code" in err && err.code === 11000) {
         errors.message = "Email already exists";
@@ -27,5 +27,11 @@ export function registerErrorCatcher(
         });
     }
 
+    return errors;
+}
+
+export function loginErrorCatcher(err: MongoServerError) {
+    let errors: CustomErrorType = {};
+    if (err.message === "Incorrect credentials") errors.message = err.message;
     return errors;
 }
