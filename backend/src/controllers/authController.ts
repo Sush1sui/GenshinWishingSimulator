@@ -1,6 +1,9 @@
-import { NextFunction, Response, Request } from "express";
+import { Response, Request } from "express";
 import User from "../models/User";
-import { registerErrorCatcher } from "../middleware/authMiddleware";
+import {
+    loginErrorCatcher,
+    registerErrorCatcher,
+} from "../middleware/authMiddleware";
 import mongoose from "mongoose";
 import { MongoServerError } from "mongodb";
 
@@ -17,16 +20,13 @@ export const postRegister = async (req: Request, res: Response) => {
     }
 };
 
-export const postLogin = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
+export const postLogin = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
         const user = await User.login(email, password);
-        res.status(200).json({ message: `${user.email} has logged in` });
+        return res.status(200).json({ message: `${user.email} has logged in` });
     } catch (error) {
-        return next(error);
+        const e = loginErrorCatcher(error as MongoServerError);
+        return res.status(400).json(e);
     }
 };
