@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function CustomHeader() {
+    const [accDropdown, setAccDropdown] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        setAccDropdown(false);
+    }, [location.pathname]);
+
     return (
         <nav
             className="navbar navbar-expand-lg bg-primary"
@@ -29,41 +37,74 @@ export default function CustomHeader() {
                 <div className="collapse navbar-collapse" id="navbarText">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link to={"/"} className="nav-link active">
+                            <Link
+                                to={"/"}
+                                className={`nav-link ${
+                                    location.pathname === "/" ? "active" : ""
+                                }`}
+                            >
                                 Wish
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/inventory"} className="nav-link">
+                            <Link
+                                to={"/inventory"}
+                                className={`nav-link ${
+                                    location.pathname === "/inventory"
+                                        ? "active"
+                                        : ""
+                                }`}
+                            >
                                 Inventory
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/shop"} className="nav-link">
+                            <Link
+                                to={"/shop"}
+                                className={`nav-link ${
+                                    location.pathname === "/shop"
+                                        ? "active"
+                                        : ""
+                                }`}
+                            >
                                 Shop
                             </Link>
                         </li>
                         <li className="nav-item dropdown">
                             <div
-                                className="nav-link dropdown-toggle"
+                                className={`nav-link ${
+                                    location.pathname === "/auth/login" ||
+                                    location.pathname === "/auth/register"
+                                        ? "active"
+                                        : ""
+                                }`}
                                 role="button"
                                 data-bs-toggle="dropdown"
-                                aria-expanded="false"
+                                aria-expanded={accDropdown}
+                                onClick={() => setAccDropdown(!accDropdown)}
                             >
                                 Account
                             </div>
-                            <ul className="dropdown-menu">
-                                <li className="dropdown-item">
+                            <ul
+                                className={`dropdown-menu ${
+                                    accDropdown ? "show" : ""
+                                }`}
+                            >
+                                <li>
                                     <Link
-                                        to={"/login"}
+                                        className="dropdown-item"
+                                        to={"/auth/login"}
+                                        onClick={() => setAccDropdown(false)}
                                         style={{ textDecoration: "none" }}
                                     >
                                         Login
                                     </Link>
                                 </li>
-                                <li className="dropdown-item">
+                                <li>
                                     <Link
-                                        to={"/register"}
+                                        className="dropdown-item"
+                                        to={"/auth/register"}
+                                        onClick={() => setAccDropdown(false)}
                                         style={{ textDecoration: "none" }}
                                     >
                                         Register

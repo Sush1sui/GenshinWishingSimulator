@@ -6,7 +6,7 @@ export default function CharacterWish() {
         >
             <div className="w-100 w-md-50 w-50 h-md-50 h-100 me-5 bg-light rounded mb-4 mb-md-0">
                 <div
-                    className="w-50 d-flex justify-content-center my-3 mx-auto rounded text-light rounded h4 text-center py-2 fs-1"
+                    className="w-50 d-flex justify-content-center my-3 mx-auto rounded text-light rounded h4 text-center py-2 px-3 fs-1"
                     style={{
                         backgroundColor: "cornflowerblue",
                     }}
@@ -47,24 +47,24 @@ export default function CharacterWish() {
                     <img
                         className="w-50 w-md-50 banner-img"
                         src="/characterBannerImages/4star/kuki-shinobu.webp"
-                        alt="..."
+                        alt="first-4star"
                     />
                     <img
                         className="w-50 w-md-50 banner-img"
                         src="/characterBannerImages/4star/ningguang.webp"
-                        alt="..."
+                        alt="second-4star"
                     />
                     <img
                         className="w-50 w-md-50 banner-img"
                         src="/characterBannerImages/4star/beidou.webp"
-                        alt="..."
+                        alt="third-4star"
                     />
                 </div>
                 <div className="container d-flex flex-column justify-content-center">
                     <img
                         className="w-100 w-md-75 banner-img"
                         src="characterBannerImages/5star/raiden.webp"
-                        alt="..."
+                        alt="five-star"
                     />
                 </div>
             </div>
