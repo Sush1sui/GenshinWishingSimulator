@@ -13,7 +13,15 @@ export function registerErrorCatcher(
     let errors: CustomErrorType = {};
 
     if ("code" in err && err.code === 11000) {
-        errors.message = "Email already exists";
+        const duplicateField = Object.keys(err.keyValue)[0];
+
+        if (duplicateField === "email") {
+            errors.message = "Email already exists";
+        } else if (duplicateField === "username") {
+            errors.message = "Username already exists";
+        } else {
+            errors.message = "Duplicate field error";
+        }
     }
 
     if (

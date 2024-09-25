@@ -1,6 +1,6 @@
 import CharacterWish from "../components/CharacterWish";
 
-export default function Wish() {
+export default function Wish({}) {
     return (
         <div className="container p-3 h-auto">
             <div className="bg-dark p-3 rounded d-flex justify-content-between">
