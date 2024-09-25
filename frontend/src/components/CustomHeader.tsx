@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function CustomHeader() {
+export default function CustomHeader({
+    isLoggedIn,
+    user,
+}: {
+    isLoggedIn: boolean;
+    user: { email: string; username: string } | null;
+}) {
     const [accDropdown, setAccDropdown] = useState(false);
+
     const location = useLocation();
 
     useEffect(() => {
@@ -90,26 +97,69 @@ export default function CustomHeader() {
                                     accDropdown ? "show" : ""
                                 }`}
                             >
-                                <li>
-                                    <Link
-                                        className="dropdown-item"
-                                        to={"/auth/login"}
-                                        onClick={() => setAccDropdown(false)}
-                                        style={{ textDecoration: "none" }}
-                                    >
-                                        Login
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        className="dropdown-item"
-                                        to={"/auth/register"}
-                                        onClick={() => setAccDropdown(false)}
-                                        style={{ textDecoration: "none" }}
-                                    >
-                                        Register
-                                    </Link>
-                                </li>
+                                {isLoggedIn === false ? (
+                                    <>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                to={"/auth/login"}
+                                                onClick={() =>
+                                                    setAccDropdown(false)
+                                                }
+                                                style={{
+                                                    textDecoration: "none",
+                                                }}
+                                            >
+                                                Login
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                to={"/auth/register"}
+                                                onClick={() =>
+                                                    setAccDropdown(false)
+                                                }
+                                                style={{
+                                                    textDecoration: "none",
+                                                }}
+                                            >
+                                                Register
+                                            </Link>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                to={"/profile"}
+                                                onClick={() =>
+                                                    setAccDropdown(false)
+                                                }
+                                                style={{
+                                                    textDecoration: "none",
+                                                }}
+                                            >
+                                                {user?.username}
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link
+                                                className="dropdown-item"
+                                                to={"/logout"}
+                                                onClick={() =>
+                                                    setAccDropdown(false)
+                                                }
+                                                style={{
+                                                    textDecoration: "none",
+                                                }}
+                                            >
+                                                Logout
+                                            </Link>
+                                        </li>
+                                    </>
+                                )}
                             </ul>
                         </li>
                     </ul>

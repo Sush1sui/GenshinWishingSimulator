@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/authRoute";
+import utilsRoutes from "./routes/utilsRoute";
 
 const app = express();
 const PORT = process.env.PORT || 6969;
@@ -16,5 +17,6 @@ mongoose
     .catch((e) => console.log("Failed to connect to DB", e));
 
 app.use("/auth", authRoutes);
+app.use("/utils", utilsRoutes);
 
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));

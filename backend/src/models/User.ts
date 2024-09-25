@@ -11,6 +11,13 @@ const userSchema = new mongoose.Schema({
         required: [true, "Email is required"],
         validate: [isEmail, "Please enter a valid email"],
     },
+    username: {
+        type: String,
+        unique: true,
+        required: [true, "Username is required"],
+        minLength: [6, "Username should be at least 6 characters"],
+        maxLength: [30, "Username should not exceed 30 characters"],
+    },
     password: {
         type: String,
         required: [true, "Password is required"],
@@ -24,13 +31,13 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.statics.login = async function (
-    email,
+    username,
     password
 ): Promise<CustomUser> {
-    if (!email) throw new Error("Email is required");
+    if (!username) throw new Error("Username is required");
     if (!password) throw new Error("Password is required");
 
-    const user = await this.findOne({ email });
+    const user = await this.findOne({ username });
 
     if (user) {
         const match = await bcrypt.compare(password, user.password);
