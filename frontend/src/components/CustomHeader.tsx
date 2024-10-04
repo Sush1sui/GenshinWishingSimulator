@@ -1,20 +1,35 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function CustomHeader({
     isLoggedIn,
     user,
+    setIsLoggedIn,
+    setUser,
 }: {
     isLoggedIn: boolean;
     user: { email: string; username: string } | null;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    setUser: React.Dispatch<React.SetStateAction<null>>;
 }) {
     const [accDropdown, setAccDropdown] = useState(false);
+    const [shouldNav, setShouldNav] = useState(false);
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setAccDropdown(false);
     }, [location.pathname]);
+
+    // Navigate after logout
+    useEffect(() => {
+        if (shouldNav) {
+            navigate("/login");
+            setUser(null);
+            setShouldNav(false); // Reset the flag
+        }
+    }, [shouldNav, navigate]);
 
     return (
         <nav
@@ -145,18 +160,22 @@ export default function CustomHeader({
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link
+                                            <button
                                                 className="dropdown-item"
-                                                to={"/logout"}
-                                                onClick={() =>
-                                                    setAccDropdown(false)
-                                                }
+                                                onClick={(
+                                                    e: React.MouseEvent<HTMLButtonElement>
+                                                ) => {
+                                                    e.preventDefault();
+                                                    setAccDropdown(false);
+                                                    setIsLoggedIn(false);
+                                                    setShouldNav(true);
+                                                }}
                                                 style={{
                                                     textDecoration: "none",
                                                 }}
                                             >
                                                 Logout
-                                            </Link>
+                                            </button>
                                         </li>
                                     </>
                                 )}

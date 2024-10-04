@@ -43,17 +43,29 @@ function App() {
 
     return (
         <BrowserRouter>
-            <CustomHeader isLoggedIn={isLoggedIn} user={user} />
+            <CustomHeader
+                isLoggedIn={isLoggedIn}
+                user={user}
+                setIsLoggedIn={setIsLoggedIn}
+                setUser={setUser}
+            />
             <Routes>
-                <Route path="/" element={<Wish />} />
-                <Route path="/inventory" element={<Inventory />} />
-                <Route path="/shop" element={<Shop />} />
+                <Route index element={<Wish isLoggedIn={isLoggedIn} />} />
+                <Route
+                    path="/inventory"
+                    element={<Inventory isLoggedIn={isLoggedIn} />}
+                />
+                <Route
+                    path="/shop"
+                    element={<Shop isLoggedIn={isLoggedIn} />}
+                />
                 <Route
                     path="/auth/login"
                     element={
                         <Login
                             setIsLoggedIn={setIsLoggedIn}
                             setUser={setUser}
+                            isLoggedIn={isLoggedIn}
                         />
                     }
                 />
@@ -63,6 +75,7 @@ function App() {
                         <Register
                             setIsLoggedIn={setIsLoggedIn}
                             setUser={setUser}
+                            isLoggedIn={isLoggedIn}
                         />
                     }
                 />
