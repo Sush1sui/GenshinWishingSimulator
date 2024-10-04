@@ -1,6 +1,9 @@
 import CharacterWish from "../components/CharacterWish";
+import NotLogged from "../components/NotLogged";
 
-export default function Wish({}) {
+export default function Wish({ isLoggedIn }: { isLoggedIn: boolean }) {
+    if (!isLoggedIn) return <NotLogged />;
+
     return (
         <div className="container p-3 h-auto">
             <div className="bg-dark p-3 rounded d-flex justify-content-between">
