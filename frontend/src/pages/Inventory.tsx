@@ -1,6 +1,5 @@
-import NotLogged from "../components/NotLogged";
+import React from "react";
 
-export default function Inventory({ isLoggedIn }: { isLoggedIn: boolean }) {
-    if (!isLoggedIn) return <NotLogged />;
+export default function Inventory() {
     return <div>Inventory</div>;
 }
