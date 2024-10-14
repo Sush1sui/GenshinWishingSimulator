@@ -13,15 +13,25 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import intertwinedFate from "/intertwined-fate.webp";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const linkCssStyle = { textDecoration: "none", color: "white" };
 
 const pages = ["Wish", "Inventory", "About"];
-const settings = ["Profile", "Inventory", "Logout"];
 
-function CustomHeader() {
+type PropType = {
+    loggedUser: string | null;
+};
+
+function CustomHeader({ loggedUser }: PropType) {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
+
+    const settings =
+        loggedUser === null
+            ? ["Login", "Register"]
+            : ["Profile", "Inventory", "Logout"];
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -55,23 +65,24 @@ function CustomHeader() {
                             mr: 1,
                         }}
                     />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            letterSpacing: ".3rem",
-                            color: "inherit",
-                            textDecoration: "none",
-                        }}
-                    >
-                        Genshin Wishing Simulator
-                    </Typography>
+                    <Link to="/" style={linkCssStyle}>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            sx={{
+                                mr: 2,
+                                display: { xs: "none", md: "flex" },
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".3rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
+                        >
+                            Genshin Wishing Simulator
+                        </Typography>
+                    </Link>
 
                     <Box
                         sx={{
@@ -160,10 +171,7 @@ function CustomHeader() {
                                 onClick={handleOpenUserMenu}
                                 sx={{ p: 0 }}
                             >
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    src="/static/images/avatar/2.jpg"
-                                />
+                                <Avatar alt="Hello World" src="" />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -187,9 +195,19 @@ function CustomHeader() {
                                     key={setting}
                                     onClick={handleCloseUserMenu}
                                 >
-                                    <Typography sx={{ textAlign: "center" }}>
-                                        {setting}
-                                    </Typography>
+                                    <Link
+                                        to={`/auth/${setting.toLowerCase()}`}
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "black",
+                                        }}
+                                    >
+                                        <Typography
+                                            sx={{ textAlign: "center" }}
+                                        >
+                                            {setting}
+                                        </Typography>
+                                    </Link>
                                 </MenuItem>
                             ))}
                         </Menu>

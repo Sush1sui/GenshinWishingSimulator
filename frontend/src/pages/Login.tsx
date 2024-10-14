@@ -1,9 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
@@ -131,7 +129,7 @@ export default function Register(props: { disableCustomTheme?: boolean }) {
                             fontSize: "clamp(2rem, 10vw, 2.15rem)",
                         }}
                     >
-                        Sign in
+                        Login
                     </Typography>
                     <Box
                         component="form"
