@@ -17,6 +17,8 @@ import {
 } from "@mui/material/styles";
 import getSignUpTheme from "../components/shared-theme/getSignUpTheme";
 import TemplateFrame from "../components/shared-theme/TemplateFrame";
+import { LoadingButton } from "@mui/lab";
+import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: "flex",
@@ -62,6 +64,10 @@ export default function Register(props: { disableCustomTheme?: boolean }) {
     const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+    const [isLoading, setIsLoading] = React.useState(false);
+
+    const navigate = useNavigate();
+
     // This code only runs on the client side, to determine the system color preference
     React.useEffect(() => {
         // Check if there is a preferred mode in localStorage
@@ -132,18 +138,45 @@ export default function Register(props: { disableCustomTheme?: boolean }) {
         return isValid;
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         if (nameError || emailError || passwordError) {
-            event.preventDefault();
             return;
         }
-        const data = new FormData(event.currentTarget);
+
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
         console.log({
-            name: data.get("name"),
-            lastName: data.get("lastName"),
-            email: data.get("email"),
-            password: data.get("password"),
+            username: formData.get("username"),
+            email: formData.get("email"),
+            password: formData.get("password"),
         });
+
+        try {
+            setIsLoading(true);
+            const res = await fetch("http://localhost:6969/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: formData.get("username"),
+                    email: formData.get("email"),
+                    password: formData.get("password"),
+                }),
+            });
+
+            if (!res.ok)
+                throw new Error("Error sending post request to the server");
+
+            const data = await res.json();
+
+            navigate("/");
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -193,6 +226,7 @@ export default function Register(props: { disableCustomTheme?: boolean }) {
                                     error={nameError}
                                     helperText={nameErrorMessage}
                                     color={nameError ? "error" : "primary"}
+                                    disabled={isLoading}
                                 />
                             </FormControl>
                             <FormControl>
@@ -208,6 +242,7 @@ export default function Register(props: { disableCustomTheme?: boolean }) {
                                     error={emailError}
                                     helperText={emailErrorMessage}
                                     color={passwordError ? "error" : "primary"}
+                                    disabled={isLoading}
                                 />
                             </FormControl>
                             <FormControl>
@@ -226,21 +261,28 @@ export default function Register(props: { disableCustomTheme?: boolean }) {
                                     error={passwordError}
                                     helperText={passwordErrorMessage}
                                     color={passwordError ? "error" : "primary"}
+                                    disabled={isLoading}
                                 />
                             </FormControl>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                onClick={validateInputs}
-                            >
-                                Register
-                            </Button>
+                            {isLoading ? (
+                                <LoadingButton loading variant="outlined">
+                                    Register
+                                </LoadingButton>
+                            ) : (
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    onClick={validateInputs}
+                                >
+                                    Register
+                                </Button>
+                            )}
                             <Typography sx={{ textAlign: "center" }}>
                                 Already have an account?{" "}
                                 <span>
                                     <Link
-                                        href="/material-ui/getting-started/templates/sign-in/"
+                                        href="/auth/login"
                                         variant="body2"
                                         sx={{ alignSelf: "center" }}
                                     >

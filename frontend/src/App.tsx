@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useState } from "react";
 
 // pages
 import Homepage from "./pages/Homepage";
@@ -12,10 +13,12 @@ import About from "./pages/About";
 import CustomHeader from "./components/CustomHeader";
 
 function App() {
+    const [loggedUser, setLoggedUser] = useState<string | null>(null);
+
     return (
         <div>
             <BrowserRouter>
-                <CustomHeader loggedUser={null} />
+                <CustomHeader loggedUser={loggedUser} />
                 <Routes>
                     <Route index element={<Homepage />} />
                     <Route path="auth">

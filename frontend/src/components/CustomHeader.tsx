@@ -128,14 +128,11 @@ function CustomHeader({ loggedUser }: PropType) {
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon
-                        sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-                    />
                     <Typography
                         variant="h5"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="/auth/login"
                         sx={{
                             mr: 2,
                             display: { xs: "flex", md: "none" },
@@ -147,7 +144,7 @@ function CustomHeader({ loggedUser }: PropType) {
                             textDecoration: "none",
                         }}
                     >
-                        LOGO
+                        GWS
                     </Typography>
                     <Box
                         sx={{
